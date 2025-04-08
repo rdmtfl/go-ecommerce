@@ -23,6 +23,6 @@ func main() {
 
 	// start server
 	if err := srv.ListenAndServe(); err != nil {
-		log.Panic()
+		log.Panic(err)
 	}
 }
