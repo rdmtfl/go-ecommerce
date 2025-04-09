@@ -1,0 +1,9 @@
+services:
+
+  broker-service:
+    build:
+      context: ./broker
+      dockerfile: ./broker.dockerfile
+    restart: always
+    ports:
+      - "8080:80"
