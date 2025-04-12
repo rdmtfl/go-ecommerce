@@ -14,14 +14,45 @@ type RequestPayload struct {
 }
 
 type OrderPayload struct {
-	OrderID      string    `json:"orderId"`
-	CustomerID   string    `json:"customerId"`
-	OrderDate    time.Time `json:"orderDate"`
-	Status       string    `json:"status"`
-	Subtotal     float64   `json:"subtotal"`
-	Tax          float64   `json:"tax"`
-	ShippingCost float64   `json:"shippingCost"`
-	Total        float64   `json:"total"`
+	OrderID         string      `json:"orderId"`
+	CustomerID      string      `json:"customerId"`
+	OrderDate       time.Time   `json:"orderDate"`
+	Status          string      `json:"status"`
+	Items           []OrderItem `json:"items"`
+	Subtotal        float64     `json:"subtotal"`
+	Tax             float64     `json:"tax"`
+	ShippingCost    float64     `json:"shippingCost"`
+	Total           float64     `json:"total"`
+	ShippingMethod  string      `json:"shippingMethod"`
+	PaymentMethod   string      `json:"paymentMethod"`
+	BillingAddress  Address     `json:"billingAddress"`
+	ShippingAddress Address     `json:"shippingAddress"`
+	Notes           string      `json:"notes,omitempty"`
+	Discounts       []Discount  `json:"discounts,omitempty"`
+}
+
+type OrderItem struct {
+	ProductID   string  `json:"productId"`
+	Quantity    int     `json:"quantity"`
+	UnitPrice   float64 `json:"unitPrice"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	SKU         string  `json:"sku"`
+}
+
+type Address struct {
+	Street     string `json:"street"`
+	City       string `json:"city"`
+	State      string `json:"state"`
+	PostalCode string `json:"postalCode"`
+	Country    string `json:"country"`
+}
+
+type Discount struct {
+	Code        string  `json:"code"`
+	Amount      float64 `json:"amount"`
+	IsPercent   bool    `json:"isPercent"`
+	Description string  `json:"description"`
 }
 
 func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
