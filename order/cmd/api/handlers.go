@@ -8,12 +8,14 @@ import (
 )
 
 type RequestPayload struct {
-	OrderID    string    `json:"orderId"`
-	CustomerID string    `json:"customerId"`
-	OrderDate  time.Time `json:"orderDate"`
-	Status     string    `json:"status"`
-	Subtotal   float64   `json:"subtotal"`
-	Tax        float64   `json:"tax"`
+	OrderID      string    `json:"orderId"`
+	CustomerID   string    `json:"customerId"`
+	OrderDate    time.Time `json:"orderDate"`
+	Status       string    `json:"status"`
+	Subtotal     float64   `json:"subtotal"`
+	Tax          float64   `json:"tax"`
+	ShippingCost float64   `json:"shippingCost"`
+	Total        float64   `json:"total"`
 }
 
 // WriteLog -
@@ -29,10 +31,10 @@ func (app *Config) WriteLog(w http.ResponseWriter, r *http.Request) {
 		OrderDate:  requestPayload.OrderDate,
 		Status:     requestPayload.Status,
 		//Items:           requestPayload.Items,
-		Subtotal: requestPayload.Subtotal,
-		Tax:      requestPayload.Tax,
-		//ShippingCost:   requestPayload.ShippingCost,
-		//Total:          requestPayload.Total,
+		Subtotal:     requestPayload.Subtotal,
+		Tax:          requestPayload.Tax,
+		ShippingCost: requestPayload.ShippingCost,
+		Total:        requestPayload.Total,
 		//ShippingMethod: requestPayload.ShippingMethod,
 		//PaymentMethod:  requestPayload.PaymentMethod,
 		//BillingAddress:  requestPayload.BillingAddress,

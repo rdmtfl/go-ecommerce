@@ -23,15 +23,17 @@ type Models struct {
 }
 
 type OrderEntry struct {
-	ID         string    `json:"id,omitempty" bson:"_id,omitempty"`
-	OrderID    string    `json:"orderId" bson:"order_id"`
-	CustomerID string    `json:"customerId" bson:"customer_id"`
-	OrderDate  time.Time `json:"orderDate" bson:"order_date"`
-	Status     string    `json:"status" bson:"status"`
-	Subtotal   float64   `json:"subtotal" bson:"subtotal"`
-	Tax        float64   `json:"tax" bson:"tax"`
-	CreatedAt  time.Time `json:"created_at" bson:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at" bson:"updated_at"`
+	ID           string    `json:"id,omitempty" bson:"_id,omitempty"`
+	OrderID      string    `json:"orderId" bson:"order_id"`
+	CustomerID   string    `json:"customerId" bson:"customer_id"`
+	OrderDate    time.Time `json:"orderDate" bson:"order_date"`
+	Status       string    `json:"status" bson:"status"`
+	Subtotal     float64   `json:"subtotal" bson:"subtotal"`
+	Tax          float64   `json:"tax" bson:"tax"`
+	ShippingCost float64   `json:"shippingCost" bson:"shipping_cost"`
+	Total        float64   `json:"total" bson:"total"`
+	CreatedAt    time.Time `json:"created_at" bson:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at" bson:"updated_at"`
 }
 
 func (o *OrderEntry) Insert(entry OrderEntry) error {
@@ -43,10 +45,10 @@ func (o *OrderEntry) Insert(entry OrderEntry) error {
 		OrderDate:  entry.OrderDate,
 		Status:     entry.Status,
 		//Items:           entry.Items,
-		Subtotal: entry.Subtotal,
-		Tax:      entry.Tax,
-		//ShippingCost:    entry.ShippingCost,
-		//Total:           entry.Total,
+		Subtotal:     entry.Subtotal,
+		Tax:          entry.Tax,
+		ShippingCost: entry.ShippingCost,
+		Total:        entry.Total,
 		//ShippingMethod:  entry.ShippingMethod,
 		//PaymentMethod:   entry.PaymentMethod,
 		//BillingAddress:  entry.BillingAddress,

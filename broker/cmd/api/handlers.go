@@ -14,12 +14,14 @@ type RequestPayload struct {
 }
 
 type OrderPayload struct {
-	OrderID    string    `json:"orderId"`
-	CustomerID string    `json:"customerId"`
-	OrderDate  time.Time `json:"orderDate"`
-	Status     string    `json:"status"`
-	Subtotal   float64   `json:"subtotal"`
-	Tax        float64   `json:"tax"`
+	OrderID      string    `json:"orderId"`
+	CustomerID   string    `json:"customerId"`
+	OrderDate    time.Time `json:"orderDate"`
+	Status       string    `json:"status"`
+	Subtotal     float64   `json:"subtotal"`
+	Tax          float64   `json:"tax"`
+	ShippingCost float64   `json:"shippingCost"`
+	Total        float64   `json:"total"`
 }
 
 func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
