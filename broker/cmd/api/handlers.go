@@ -76,13 +76,14 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	switch requestPayload.Action {
 	case "order":
-		app.logItem(w, requestPayload.Order)
+		app.logOrder(w, requestPayload.Order)
 	default:
 		app.errorJson(w, errors.New("unknown action"))
 	}
 }
 
-func (app *Config) logItem(w http.ResponseWriter, entry OrderPayload) {
+// logOrder
+func (app *Config) logOrder(w http.ResponseWriter, entry OrderPayload) {
 	jsonData, _ := json.MarshalIndent(entry, "", "\t")
 
 	logServiceURL := "http://order-service/log"
@@ -109,10 +110,11 @@ func (app *Config) logItem(w http.ResponseWriter, entry OrderPayload) {
 		return
 	}
 
-	var payload jsonResponse
-	payload.Error = false
-	payload.Message = "logged"
+	payload := jsonResponse{
+		Error:   false,
+		Message: "created",
+		Data:    entry,
+	}
 
 	app.writeJson(w, http.StatusAccepted, payload)
-
 }
