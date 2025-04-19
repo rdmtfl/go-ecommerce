@@ -39,9 +39,8 @@ type OrderEntry struct {
 	ShippingAddress Address     `json:"shippingAddress" bson:"shipping_address"`
 	Notes           string      `json:"notes,omitempty" bson:"notes,omitempty"`
 	Discounts       []Discount  `json:"discounts,omitempty" bson:"discounts,omitempty"`
-
-	CreatedAt time.Time `json:"created_at" bson:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" bson:"updated_at"`
+	CreatedAt       time.Time   `json:"created_at" bson:"created_at"`
+	UpdatedAt       time.Time   `json:"updated_at" bson:"updated_at"`
 }
 
 type OrderItem struct {
