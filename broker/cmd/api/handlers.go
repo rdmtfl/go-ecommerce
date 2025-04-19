@@ -84,7 +84,11 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 // logOrder
 func (app *Config) logOrder(w http.ResponseWriter, entry OrderPayload) {
-	jsonData, _ := json.MarshalIndent(entry, "", "\t")
+	jsonData, err := json.Marshal(entry)
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
 
 	logServiceURL := "http://order-service/log"
 
@@ -97,7 +101,6 @@ func (app *Config) logOrder(w http.ResponseWriter, entry OrderPayload) {
 	request.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
-
 	response, err := client.Do(request)
 	if err != nil {
 		app.errorJson(w, err)
@@ -105,16 +108,18 @@ func (app *Config) logOrder(w http.ResponseWriter, entry OrderPayload) {
 	}
 	defer response.Body.Close()
 
-	if response.StatusCode != http.StatusAccepted {
+	// read response from service
+	var jsonFromService jsonResponse
+	err = json.NewDecoder(response.Body).Decode(&jsonFromService)
+	if err != nil {
 		app.errorJson(w, err)
 		return
 	}
 
 	payload := jsonResponse{
-		Error:   false,
-		Message: "created",
-		Data:    entry,
+		Error:   jsonFromService.Error,
+		Message: jsonFromService.Message,
+		Data:    jsonFromService.Data,
 	}
-
-	app.writeJson(w, http.StatusAccepted, payload)
+	app.writeJson(w, response.StatusCode, payload)
 }
