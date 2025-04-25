@@ -2,16 +2,16 @@ services:
 
   gateway-service:
     build:
-      context: ./../gateway
-      dockerfile: ./../gateway/gateway.dockerfile
+      context: ./gateway
+      dockerfile: ./gateway.dockerfile
     restart: always
     ports:
       - "8080:80"
 
   order-service:
     build:
-      context: ./../order
-      dockerfile: ./../order/order.dockerfile
+      context: ./order
+      dockerfile: ./order.dockerfile
     restart: always
 
   mongo:
