@@ -1,4 +1,4 @@
-module github.com/rdmtfl/broker
+module github.com/rdmtfl/gateway
 
 go 1.23
 
