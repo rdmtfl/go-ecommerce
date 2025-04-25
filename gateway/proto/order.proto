@@ -1,0 +1,104 @@
+// syntax = "proto3";
+
+// package pb;
+
+// option go_package = "./pb";
+
+// message Order {
+//     string order_id = 1;
+//     string customer_id = 2;
+// }
+
+// message OrderRequest {
+//     Order orderEntry = 1;
+// }
+
+// message OrderResponse {
+//     string result = 1;
+// }
+
+// service OrderService {
+//     rpc PostOrder(OrderRequest) returns (OrderResponse);
+// }
+
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+// message Order {
+//     string order_id = 1;
+//     string customer_id = 2;
+// }
+
+// message OrderRequest {
+//     Order orderEntry = 1;
+// }
+
+// message OrderResponse {
+//     string result = 1;
+// }
+
+message Order {
+  string order_id = 1;          // "order-abcde"
+  string customer_id = 2;       // "CUST-7890"
+  string order_date = 3;        // ISO 8601 format
+  string status = 4;            // e.g. "processing"
+  repeated Item items = 5;      // list of items
+  double subtotal = 6;          // 72.48
+  double tax = 7;               // 5.80
+  double shipping_cost = 8;     // 5.99
+  double total = 9;             // 84.27
+  string shipping_method = 10;  // "standard"
+  string payment_method = 11;   // "credit_card"
+  Address billing_address = 12;
+  Address shipping_address = 13;
+  string notes = 14;            // Delivery instructions
+  repeated Discount discounts = 15; // list of discounts
+
+  message Item {
+    string product_id = 1;      // "PROD-1001"
+    int32 quantity = 2;         // 2
+    double unit_price = 3;      // 29.99
+    string name = 4;           // "Wireless Headphones"
+    string description = 5;    // Product details
+    string sku = 6;            // "WH-2023-BLK"
+  }
+
+  message Address {
+    string street = 1;         // "123 Main St"
+    string city = 2;           // "Austin"
+    string state = 3;          // "TX"
+    string postal_code = 4;    // "78701"
+    string country = 5;        // "USA"
+  }
+
+  message Discount {
+    string code = 1;           // "SUMMER10"
+    double amount = 2;         // 10.0
+    bool is_percent = 3;       // true
+    string description = 4;    // "Summer Sale 10% Off"
+  }
+}
+
+message OrderRequest {
+    Order orderEntry = 1;
+}
+
+message OrderResponse {
+  bool error = 1;              // Always true for error responses
+  string message = 2;          // General error message ("missing fields")
+  repeated string fields = 3;    // Detailed error messages
+  ResponseData data = 4;
+
+  message ResponseData {
+    string order_id = 1;       // generated order ID
+    string creation_date = 2;  // ISO 8601 timestamp
+  }
+}
+
+
+service OrderService {
+    rpc PostOrder(OrderRequest) returns (OrderResponse);
+}

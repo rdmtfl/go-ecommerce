@@ -2,10 +2,15 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
 	"time"
+
+	"github.com/rdmtfl/gateway/proto/pb"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type RequestPayload struct {
@@ -122,4 +127,46 @@ func (app *Config) postOrder(w http.ResponseWriter, entry OrderPayload) {
 		Data:    jsonFromService.Data,
 	}
 	app.writeJson(w, response.StatusCode, payload)
+}
+
+// PostOrderViaGRPC -
+func (app *Config) PostOrderViaGRPC(w http.ResponseWriter, r *http.Request) {
+	var requestPayload RequestPayload
+
+	err := app.readJson(w, r, &requestPayload)
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+
+	conn, err := grpc.Dial("order-service:50051", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+	defer conn.Close()
+
+	c := pb.NewOrderServiceClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	res, err := c.PostOrder(ctx, &pb.OrderRequest{
+		OrderEntry: &pb.Order{
+			OrderId:    requestPayload.Order.OrderID,
+			CustomerId: requestPayload.Order.CustomerID,
+		},
+	})
+
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+
+	app.writeJson(w, http.StatusAccepted, res)
+
+	// var payload jsonResponse
+	// payload.Error = false
+	// payload.Message = "logged"
+
+	// app.writeJson(w, http.StatusAccepted, payload)
 }
