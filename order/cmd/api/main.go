@@ -16,6 +16,7 @@ import (
 const (
 	webPort  = "80"
 	mongoURL = "mongodb://mongo:27017"
+	gRPCPort = "50051"
 )
 
 var client *mongo.Client
@@ -46,6 +47,8 @@ func main() {
 	app := Config{
 		Models: data.New(client),
 	}
+
+	go app.gRPCListen()
 
 	// start web server
 	// go app.serve()
