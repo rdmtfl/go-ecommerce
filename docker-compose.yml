@@ -25,3 +25,9 @@ services:
     volumes:
       - ./db-data/mongo/:/data/db
       
+  rabbitmq:
+    image: 'rabbitmq:4.1.0-alpine'
+    ports:
+      - "5672:5672"
+    volumes:
+      - ./db-data/rabbitmq/:/var/lib/rabbitmq/
