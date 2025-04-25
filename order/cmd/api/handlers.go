@@ -12,8 +12,8 @@ type responsePayload struct {
 	CreationDate time.Time `json:"creationDate"`
 }
 
-// WriteLog -
-func (app *Config) WriteLog(w http.ResponseWriter, r *http.Request) {
+// PostOrder -
+func (app *Config) PostOrder(w http.ResponseWriter, r *http.Request) {
 	var requestPayload data.OrderEntry
 	var payload jsonResponse
 

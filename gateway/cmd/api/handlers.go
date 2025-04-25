@@ -76,21 +76,21 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	switch requestPayload.Action {
 	case "order":
-		app.logOrder(w, requestPayload.Order)
+		app.postOrder(w, requestPayload.Order)
 	default:
 		app.errorJson(w, errors.New("unknown action"))
 	}
 }
 
-// logOrder
-func (app *Config) logOrder(w http.ResponseWriter, entry OrderPayload) {
+// postOrder -
+func (app *Config) postOrder(w http.ResponseWriter, entry OrderPayload) {
 	jsonData, err := json.Marshal(entry)
 	if err != nil {
 		app.errorJson(w, err)
 		return
 	}
 
-	logServiceURL := "http://order-service/log"
+	logServiceURL := "http://order-service/order"
 
 	request, err := http.NewRequest("POST", logServiceURL, bytes.NewBuffer(jsonData))
 	if err != nil {
