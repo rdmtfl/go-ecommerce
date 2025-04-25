@@ -55,7 +55,7 @@ type Discount struct {
 	Description string  `json:"description"`
 }
 
-func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
+func (app *Config) Gateway(w http.ResponseWriter, r *http.Request) {
 	payload := jsonResponse{
 		Error:   false,
 		Message: "connected!",

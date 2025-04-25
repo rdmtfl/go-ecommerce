@@ -1,9 +1,9 @@
 services:
 
-  broker-service:
+  gateway-service:
     build:
-      context: ./../broker
-      dockerfile: ./../broker/broker.dockerfile
+      context: ./../gateway
+      dockerfile: ./../gateway/gateway.dockerfile
     restart: always
     ports:
       - "8080:80"
