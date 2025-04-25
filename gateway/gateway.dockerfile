@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine AS builder
+FROM golang:1.23.8-alpine AS builder
 
 RUN mkdir /app
 
@@ -12,7 +12,7 @@ RUN chmod +x /app/gatewayApp
 
 ####
 
-FROM alpine:latest
+FROM alpine:3.21.3
 
 RUN mkdir /app
 
